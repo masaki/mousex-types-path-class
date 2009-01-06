@@ -13,7 +13,7 @@ use MouseX::Types
     -declare => [qw(Dir File)]; # export Types
 require Mouse;                  # for Mouse::TypeRegistry (Mouse::load_class)
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 class_type $_ => { class => $_ }
     for qw( Path::Class::Dir Path::Class::File );
