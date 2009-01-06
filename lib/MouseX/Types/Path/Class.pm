@@ -48,6 +48,8 @@ MouseX::Types::Path::Class - A Path::Class type library for Mouse
 
 =head1 SYNOPSIS
 
+=head2 CLASS TYPES
+
   package MyApp;
   use Mouse;
   use MouseX::Types::Path::Class;
@@ -67,38 +69,12 @@ MouseX::Types::Path::Class - A Path::Class type library for Mouse
       coerce   => 1,
   );
 
-  # these attributes are coerced to the
-  # appropriate Path::Class objects
-  MyApp->new( dir => '/some/directory/', file => '/some/file' );
+=head2 CUSTOM TYPES
 
-=head1 DESCRIPTION
-
-MouseX::Types::Path::Class creates common L<Mouse> types,
-coercions and option specifications useful for dealing
-with L<Path::Class> objects as L<Mouse> attributes.
-
-Coercions (see L<Mouse::TypeRegistry>) are made
-from both 'Str' and 'ArrayRef' to both L<Path::Class::Dir> and
-L<Path::Class::File> objects. If you have L<MouseX::Getopt> installed,
-the Getopt option type ("=s") will be added for both
-L<Path::Class::Dir> and L<Path::Class::File>.
-
-=head1 EXPORTS
-
-None of these are exported by default. They are provided via
-L<MouseX::Types>.
-
-=head2 Dir
-
-=head2 File
-
-These exports can be used instead of the full class names.
-
-Example:
-
-  package MyClass;
+  package MyApp;
   use Mouse;
   use MouseX::Types::Path::Class qw(Dir File);
+  with 'MouseX::Getopt'; # optional
 
   has 'dir' => (
       is       => 'ro',
@@ -114,24 +90,47 @@ Example:
       coerce   => 1,
   );
 
-Note that there are no quotes around Dir or File.
+=head1 DESCRIPTION
 
-=head2 is_Dir($value)
+MouseX::Types::Path::Class creates common L<Mouse> types,
+coercions and option specifications useful for dealing
+with L<Path::Class> objects as L<Mouse> attributes.
 
-=head2 is_File($value)
+Coercions (see L<Mouse::TypeRegistry>) are made
+from both C<Str> and C<ArrayRef> to both L<Path::Class::Dir> and
+L<Path::Class::File> objects. If you have L<MouseX::Getopt> installed,
+the Getopt option type ("=s") will be added for both
+L<Path::Class::Dir> and L<Path::Class::File>.
 
-Returns true or false based on whether $value is a valid Dir or File.
+=head1 TYPES
 
-=head2 to_Dir($value)
+=head2 Dir
 
-=head2 to_File($value)
+=over 4
 
-Attempts to coerce $value to a Dir or File. Returns the coerced value
-or false if the coercion failed.
+A L<Path::Class::Dir> class type.
+
+Coerces from C<Str> and C<ArrayRef> via L<Path::Class::Dir/new>.
+
+=back
+
+=head2 File
+
+=over 4
+
+A L<Path::Class::File> class type.
+
+Coerces from C<Str> and C<ArrayRef> via L<Path::Class::File/new>.
+
+=back
 
 =head1 AUTHOR
 
 NAKAGAWA Masaki E<lt>masaki@cpan.orgE<gt>
+
+=head1 THANKS TO
+
+Todd Hepler, L<MooseX::Types::Path::Class/AUTHOR>
 
 =head1 LICENSE
 
@@ -140,6 +139,10 @@ it under the same terms as Perl itself.
 
 =head1 SEE ALSO
 
-L<Mouse>, L<MouseX::Types>, L<Path::Class>, L<MooseX::Types::Path::Class>
+L<Mouse>, L<MouseX::Types>,
+
+L<Path::Class>,
+
+L<MooseX::Types::Path::Class>
 
 =cut
