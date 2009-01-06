@@ -1,11 +1,18 @@
 use Test::Base;
 use Path::Class qw(dir file);
 
-plan tests => 10;
+eval { require MouseX::Getopt };
+if ($@) {
+    plan skip_all => 'MouseX::Getopt required for this test';
+}
+else {
+    plan tests => 20;
+}
 
 {
     package Foo;
     use Mouse;
+    with 'MouseX::Getopt';
     use MouseX::Types::Path::Class;
 
     has 'dir' => (
@@ -26,6 +33,7 @@ plan tests => 10;
 {
     package Bar;
     use Mouse;
+    with 'MouseX::Getopt';
     use MouseX::Types::Path::Class qw( Dir File );
 
     has 'dir' => (
@@ -53,4 +61,12 @@ for my $class (qw(Foo Bar)) {
     isa_ok $obj->file => 'Path::Class::File';
     is $obj->dir  => $dir;
     is $obj->file => $file;
+
+    local @ARGV = qw(--dir /tmp --file /tmp/foo);
+    my $opt = $class->new_with_options;
+    isa_ok $opt => $class;
+    isa_ok $opt->dir  => 'Path::Class::Dir';
+    isa_ok $opt->file => 'Path::Class::File';
+    is $opt->dir  => $dir;
+    is $opt->file => $file;
 }

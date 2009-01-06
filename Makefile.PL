@@ -2,13 +2,16 @@ use inc::Module::Install;
 name 'MouseX-Types-Path-Class';
 all_from 'lib/MouseX/Types/Path/Class.pm';
 
-# requires '';
+requires 'Mouse' => '0.14';
+requires 'MouseX::Types';
+requires 'namespace::clean';
+requires 'Path::Class';
 
-# install_script '';
+recommends 'MouseX::Getopt';
 
 tests 't/*.t';
 test_requires 'Test::More';
-test_requires 'Test::use::ok';
+test_requires 'ok';
 author_tests 'xt';
 use_test_base;
 
