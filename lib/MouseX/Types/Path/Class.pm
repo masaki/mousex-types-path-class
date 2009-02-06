@@ -5,13 +5,11 @@ use warnings;
 use 5.8.1;
 use Path::Class::Dir;
 use Path::Class::File;
-use Mouse::TypeRegistry;
+use Mouse::Util::TypeConstraints;
 use MouseX::Types::Mouse qw(Str ArrayRef);
 use namespace::clean;
 
-use MouseX::Types
-    -declare => [qw(Dir File)]; # export Types
-require Mouse;                  # for Mouse::TypeRegistry (Mouse::load_class)
+use MouseX::Types -declare => [qw(Dir File)]; # export Types
 
 our $VERSION = '0.02';
 
