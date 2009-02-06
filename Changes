@@ -1,5 +1,8 @@
 Revision history for Perl extension MouseX::Types::Path::Class
 
+0.03
+        - use Mouse 0.15 and MouseX::Types 0.01
+
 0.02
         - no functional changes, no need to upgrade
         - fix POD
