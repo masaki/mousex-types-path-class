@@ -2,7 +2,7 @@ package MouseX::Types::Path::Class;
 
 use strict;
 use warnings;
-use 5.8.1;
+use 5.008001;
 use Path::Class::Dir;
 use Path::Class::File;
 use Mouse::Util::TypeConstraints;
