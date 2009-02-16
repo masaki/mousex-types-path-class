@@ -11,7 +11,7 @@ use namespace::clean;
 
 use MouseX::Types -declare => [qw(Dir File)]; # export Types
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 class_type $_ => { class => $_ }
     for qw( Path::Class::Dir Path::Class::File );

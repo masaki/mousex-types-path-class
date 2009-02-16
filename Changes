@@ -1,5 +1,9 @@
 Revision history for Perl extension MouseX::Types::Path::Class
 
+0.04
+        - no functional changes
+        - changed version format for avoid warnings (thanks tokuhirom)
+
 0.03
         - use Mouse 0.15 and MouseX::Types 0.01
 
