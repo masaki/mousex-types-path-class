@@ -1,34 +1,40 @@
 package MouseX::Types::Path::Class;
 
+use 5.008_001;
 use strict;
 use warnings;
-use 5.008001;
 use Path::Class::Dir;
 use Path::Class::File;
 use Mouse::Util::TypeConstraints;
-use MouseX::Types::Mouse qw(Str ArrayRef);
-use namespace::clean;
-
 use MouseX::Types -declare => [qw(Dir File)]; # export Types
 
 our $VERSION = '0.04';
 
-class_type $_ => { class => $_ }
-    for qw( Path::Class::Dir Path::Class::File );
+# class_type is not equivalent to Moose's it under $Mouse::VERSION <= 0.19
+# I used subtype instead of class_type
+subtype 'Path::Class::Dir'
+    => as 'Object'
+    => where { $_->isa('Path::Class::Dir') };
+subtype 'Path::Class::File'
+    => as 'Object'
+    => where { $_->isa('Path::Class::File') };
 
-subtype Dir,  as 'Path::Class::Dir';
-subtype File, as 'Path::Class::File';
+# declare types are required ",", DO NOT USE "=>"
+subtype Dir,
+    as 'Path::Class::Dir';
+subtype File,
+    as 'Path::Class::File';
 
 for my $type ( 'Path::Class::Dir', Dir ) {
-    coerce $type,
-        from Str,      via { Path::Class::Dir->new($_)  },
-        from ArrayRef, via { Path::Class::Dir->new(@$_) };
+    coerce $type
+        => from 'Str'      => via { Path::Class::Dir->new($_)  }
+        => from 'ArrayRef' => via { Path::Class::Dir->new(@$_) };
 }
 
 for my $type ( 'Path::Class::File', File ) {
-    coerce $type,
-        from Str,      via { Path::Class::File->new($_)  },
-        from ArrayRef, via { Path::Class::File->new(@$_) };
+    coerce $type
+        => from 'Str'      => via { Path::Class::File->new($_)  }
+        => from 'ArrayRef' => via { Path::Class::File->new(@$_) };
 }
 
 # optionally add Getopt option type
@@ -51,7 +57,6 @@ MouseX::Types::Path::Class - A Path::Class type library for Mouse
   package MyApp;
   use Mouse;
   use MouseX::Types::Path::Class;
-  with 'MouseX::Getopt'; # optional
 
   has 'dir' => (
       is       => 'ro',
@@ -72,7 +77,6 @@ MouseX::Types::Path::Class - A Path::Class type library for Mouse
   package MyApp;
   use Mouse;
   use MouseX::Types::Path::Class qw(Dir File);
-  with 'MouseX::Getopt'; # optional
 
   has 'dir' => (
       is       => 'ro',
@@ -94,9 +98,10 @@ MouseX::Types::Path::Class creates common L<Mouse> types,
 coercions and option specifications useful for dealing
 with L<Path::Class> objects as L<Mouse> attributes.
 
-Coercions (see L<Mouse::TypeRegistry>) are made
+Coercions (see L<Mouse::Util::TypeConstraints>) are made
 from both C<Str> and C<ArrayRef> to both L<Path::Class::Dir> and
-L<Path::Class::File> objects. If you have L<MouseX::Getopt> installed,
+L<Path::Class::File> objects.
+If you have L<MouseX::Getopt> installed,
 the Getopt option type ("=s") will be added for both
 L<Path::Class::Dir> and L<Path::Class::File>.
 
@@ -128,7 +133,7 @@ NAKAGAWA Masaki E<lt>masaki@cpan.orgE<gt>
 
 =head1 THANKS TO
 
-Todd Hepler, L<MooseX::Types::Path::Class/AUTHOR>
+L<MooseX::Types::Path::Class/AUTHOR>
 
 =head1 LICENSE
 
