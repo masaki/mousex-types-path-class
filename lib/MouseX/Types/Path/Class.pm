@@ -8,7 +8,7 @@ use Path::Class::File;
 use Mouse::Util::TypeConstraints;
 use MouseX::Types -declare => [qw(Dir File)]; # export Types
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 # class_type is not equivalent to Moose's it under $Mouse::VERSION <= 0.19
 # I used subtype instead of class_type
