@@ -10,6 +10,7 @@ requires 'Path::Class';
 recommends 'MouseX::Getopt' => '0.05';
 
 tests 't/*.t';
+test_requires 'Any::Moose' => '0.05';
 test_requires 'Test::More';
 test_requires 'Test::UseAllModules';
 author_tests 'xt';

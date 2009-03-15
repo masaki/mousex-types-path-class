@@ -1,19 +1,17 @@
-use Test::Base;
+use Test::More;
 use Path::Class qw(dir file);
 
 eval { require MouseX::Getopt };
-if ($@) {
-    plan skip_all => 'MouseX::Getopt required for this test';
-}
-else {
-    plan tests => 20;
-}
+plan $@
+    ? (skip_all => 'MouseX::Getopt required for this test')
+    : (tests    => 20);
 
-{
+do {
     package Foo;
     use Mouse;
-    with 'MouseX::Getopt';
     use MouseX::Types::Path::Class;
+
+    with 'MouseX::Getopt';
 
     has 'dir' => (
         is       => 'ro',
@@ -28,13 +26,12 @@ else {
         required => 1,
         coerce   => 1,
     );
-}
 
-{
     package Bar;
     use Mouse;
+    use MouseX::Types::Path::Class qw(Dir File);
+
     with 'MouseX::Getopt';
-    use MouseX::Types::Path::Class qw( Dir File );
 
     has 'dir' => (
         is       => 'ro',
@@ -49,7 +46,7 @@ else {
         required => 1,
         coerce   => 1,
     );
-}
+};
 
 my $dir  = dir('', 'tmp');
 my $file = file('', 'tmp', 'foo');

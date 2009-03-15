@@ -1,10 +1,12 @@
-use Test::More tests => 10;
+use Test::More tests => 12;
 use Path::Class qw(dir file);
+
+BEGIN { $ENV{ANY_MOOSE} = 'Mouse' }
 
 do {
     package Foo;
-    use Mouse;
-    use MouseX::Types::Path::Class;
+    use Any::Moose;
+    use Any::Moose 'X::Types::Path::Class';
 
     has 'dir' => (
         is       => 'ro',
@@ -21,8 +23,8 @@ do {
     );
 
     package Bar;
-    use Mouse;
-    use MouseX::Types::Path::Class qw( Dir File );
+    use Any::Moose;
+    use Any::Moose 'X::Types::Path::Class' => [qw(Dir File)];
 
     has 'dir' => (
         is       => 'ro',
@@ -44,6 +46,7 @@ my $file = file('', 'tmp', 'foo');
 
 for my $class (qw(Foo Bar)) {
     my $obj = $class->new( dir => "$dir", file => [ '', 'tmp', 'foo' ] );
+    isa_ok $obj->meta => 'Mouse::Meta::Class';
     isa_ok $obj => $class;
     isa_ok $obj->dir  => 'Path::Class::Dir';
     isa_ok $obj->file => 'Path::Class::File';
