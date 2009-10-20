@@ -3,42 +3,32 @@ package MouseX::Types::Path::Class;
 use 5.008_001;
 use strict;
 use warnings;
-use Path::Class::Dir;
-use Path::Class::File;
-use Mouse::Util::TypeConstraints;
+use Path::Class ();
 use MouseX::Types -declare => [qw(Dir File)]; # export Types
+use MouseX::Types::Mouse qw(Str ArrayRef);
 
 our $VERSION = '0.05';
 
-# class_type is not equivalent to Moose's it under $Mouse::VERSION <= 0.19
-# I used subtype instead of class_type
-subtype 'Path::Class::Dir'
-    => as 'Object'
-    => where { $_->isa('Path::Class::Dir') };
-subtype 'Path::Class::File'
-    => as 'Object'
-    => where { $_->isa('Path::Class::File') };
+class_type 'Path::Class::Dir';
+class_type 'Path::Class::File';
 
-# declare types are required ",", DO NOT USE "=>"
-subtype Dir,
-    as 'Path::Class::Dir';
-subtype File,
-    as 'Path::Class::File';
+subtype Dir,  as 'Path::Class::Dir';
+subtype File, as 'Path::Class::File';
 
 for my $type ( 'Path::Class::Dir', Dir ) {
-    coerce $type
-        => from 'Str'      => via { Path::Class::Dir->new($_)  }
-        => from 'ArrayRef' => via { Path::Class::Dir->new(@$_) };
+    coerce $type,
+        from Str,      via { Path::Class::Dir->new($_)  },
+        from ArrayRef, via { Path::Class::Dir->new(@$_) };
 }
 
 for my $type ( 'Path::Class::File', File ) {
-    coerce $type
-        => from 'Str'      => via { Path::Class::File->new($_)  }
-        => from 'ArrayRef' => via { Path::Class::File->new(@$_) };
+    coerce $type,
+        from Str,      via { Path::Class::File->new($_)  },
+        from ArrayRef, via { Path::Class::File->new(@$_) };
 }
 
 # optionally add Getopt option type
-eval { require MouseX::Getopt::OptionTypeMap };
+eval { require MouseX::Getopt };
 unless ($@) {
     MouseX::Getopt::OptionTypeMap->add_option_type_to_map($_, '=s')
         for ( 'Path::Class::Dir', 'Path::Class::File', Dir, File );
