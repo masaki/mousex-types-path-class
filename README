@@ -1,27 +1,80 @@
-This is Perl module MouseX::Types::Path::Class.
+NAME
+    MouseX::Types::Path::Class - A Path::Class type library for Mouse
 
-INSTALLATION
+SYNOPSIS
+  CLASS TYPES
+      package MyApp;
+      use Mouse;
+      use MouseX::Types::Path::Class;
 
-MouseX::Types::Path::Class installation is straightforward. If your CPAN shell is set up,
-you should just be able to do
+      has 'dir' => (
+          is       => 'ro',
+          isa      => 'Path::Class::Dir',
+          required => 1,
+          coerce   => 1,
+      );
 
-    % cpan MouseX::Types::Path::Class
+      has 'file' => (
+          is       => 'ro',
+          isa      => 'Path::Class::File',
+          required => 1,
+          coerce   => 1,
+      );
 
-Download it, unpack it, then build it as per the usual:
+  CUSTOM TYPES
+      package MyApp;
+      use Mouse;
+      use MouseX::Types::Path::Class qw(Dir File);
 
-    % perl Makefile.PL
-    % make && make test
+      has 'dir' => (
+          is       => 'ro',
+          isa      => Dir,
+          required => 1,
+          coerce   => 1,
+      );
 
-Then install it:
+      has 'file' => (
+          is       => 'ro',
+          isa      => File,
+          required => 1,
+          coerce   => 1,
+      );
 
-    % make install
+DESCRIPTION
+    MouseX::Types::Path::Class creates common Mouse types, coercions and
+    option specifications useful for dealing with Path::Class objects as
+    Mouse attributes.
 
-DOCUMENTATION
+    Coercions (see Mouse::Util::TypeConstraints) are made from both "Str"
+    and "ArrayRef" to both Path::Class::Dir and Path::Class::File objects.
+    If you have MouseX::Getopt installed, the Getopt option type ("=s") will
+    be added for both Path::Class::Dir and Path::Class::File.
 
-MouseX::Types::Path::Class documentation is available as in POD. So you can do:
+TYPES
+  Dir
+        A Path::Class::Dir class type.
 
-    % perldoc MouseX::Types::Path::Class
+        Coerces from "Str" and "ArrayRef" via "new" in Path::Class::Dir.
 
-to read the documentation online with your favorite pager.
+  File
+        A Path::Class::File class type.
 
-NAKAGAWA Masaki
+        Coerces from "Str" and "ArrayRef" via "new" in Path::Class::File.
+
+AUTHOR
+    NAKAGAWA Masaki <masaki@cpan.org>
+
+THANKS TO
+    "AUTHOR" in MooseX::Types::Path::Class
+
+LICENSE
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
+SEE ALSO
+    Mouse, MouseX::Types,
+
+    Path::Class,
+
+    MooseX::Types::Path::Class
+
