@@ -1,4 +1,4 @@
-use Test::More tests => 10;
+use Test::More;
 use Path::Class qw(dir file);
 
 do {
@@ -50,3 +50,5 @@ for my $class (qw(Foo Bar)) {
     is $obj->dir  => $dir;
     is $obj->file => $file;
 }
+
+done_testing;

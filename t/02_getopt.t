@@ -2,9 +2,9 @@ use Test::More;
 use Path::Class qw(dir file);
 
 eval { require MouseX::Getopt };
-plan $@
-    ? (skip_all => 'MouseX::Getopt required for this test')
-    : (tests    => 20);
+if ($@) {
+    plan skip_all => 'MouseX::Getopt required for this test';
+}
 
 do {
     package Foo;
@@ -67,3 +67,5 @@ for my $class (qw(Foo Bar)) {
     is $opt->dir  => $dir;
     is $opt->file => $file;
 }
+
+done_testing;
