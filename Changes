@@ -1,5 +1,11 @@
 Revision history for Perl extension MouseX::Types::Path::Class
 
+0.06
+        - require Mouse 0.39
+        - require MouseX::Types 0.02
+        - recommends MouseX::Getopt 0.2200 
+        - removed Any::Moose test case
+
 0.05
         - no functional changes
         - use Mouse 0.19
