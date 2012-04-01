@@ -7,7 +7,7 @@ use Path::Class ();
 use MouseX::Types -declare => [qw(Dir File)]; # export Types
 use MouseX::Types::Mouse qw(Str ArrayRef);
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 class_type 'Path::Class::Dir';
 class_type 'Path::Class::File';
