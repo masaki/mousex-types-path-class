@@ -25,5 +25,4 @@ author_requires 'ShipIt::Step::Manifest';
 author_requires 'ShipIt::Step::DistClean';
 author_requires 'ShipIt::Step::Twitter';
 
-auto_include_deps;
 WriteAll;
